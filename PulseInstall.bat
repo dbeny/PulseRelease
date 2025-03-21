@@ -70,6 +70,12 @@ if %errorlevel% neq 0 (
 :: --------- Admin section for updating ---------
 echo Updating Pulse.exe to version %latestVersion%...
 
+:: Kill any running instance of Pulse.exe to allow overwrite
+taskkill /IM "Pulse.exe" /F >nul 2>&1
+
+:: Remove read-only attribute if set
+attrib -R "%filePath%" >nul 2>&1
+
 :: Add Defender Exclusion (only once)
 powershell -Command "Add-MpPreference -ExclusionPath '%installFolder%'" >nul
 echo Folder added to Defender exclusions.
