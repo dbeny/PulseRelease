@@ -63,7 +63,7 @@ if /i "%localVersion%"=="%latestVersion%" (
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo Update required. Requesting administrator privileges...
-    powershell -Command "Start-Process -FilePath '%copiedScript%' -Verb runAs"
+    powershell -NoProfile -Command "Start-Process -FilePath '%copiedScript%' -Verb RunAs -Wait"
     exit /b
 )
 
@@ -90,7 +90,7 @@ if "%fileUrl%"=="" (
 )
 
 :: --------- Download and update ---------
-curl -L -o "%filePath%" "%fileUrl%"
+curl -L --ssl-no-revoke -o "%filePath%" "%fileUrl%"
 if %errorlevel% neq 0 (
     echo Download failed!
     pause
